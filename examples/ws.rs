@@ -37,7 +37,10 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for Ws {
 }
 
 fn main() -> Result<(), SystemError> {
-    server::new(|| App::new().resource("/ws/", |r| r.f(|req| ws::start(req, Ws))))
+    server::new(|| App::new().resource("/ws/{url}", |r| r.f(|req|{
+        println!("{:?}", req);
+        ws::start(req, Ws)
+    } )))
         .bind("0.0.0.0:1257")?
         .run();
 
