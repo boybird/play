@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="box">
+        <button onclick="connect()"> connect </button>
+        <button onclick="disconnect()">disconnect </button>
+    </div>
+
+    <script>
+        `use strict`;
+        const wsurl = "ws://127.0.0.1:1257/ws/";
+        let ws = null;
+
+
+
+
+        const connect = () => {
+            disconnect();
+            ws = new WebSocket(wsurl);
+            ws.onopen = () => console.log("opened");
+            ws.onmessage = (msg) => console.log(msg.data);
+        }
+
+        const disconnect = () => {
+            if (ws !== null) {
+                console.log('disconnecting...')
+                ws.close();
+                ws = null;
+            }
+        }
+
+        // connect();
+        setInterval(() => {
+            if (ws != null) {
+                ws.send("happy");
+            }
+        }, 1000);
+
+    </script>
+</body>
+
+</html>
