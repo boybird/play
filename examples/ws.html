@@ -10,11 +10,18 @@
 
 <body>
 
-    <div id="box">
-        <input type="text" id="room_name">
+    <div id="box" class="row">
+        <input type="text" id="room_name" value="wsrs" placeholder="input room name">
         <button onclick="connect()"> connect </button>
         <button onclick="disconnect()">disconnect </button>
     </div>
+
+    <div class="row">
+        <input type="text" id="send_text" >
+        <button onclick="send()">send</button>
+    </div>
+
+    
 
     <script>
         `use strict`;
@@ -42,12 +49,20 @@
             }
         }
 
-        // connect();
-        setInterval(() => {
-            if (ws != null) {
-                ws.send("happy");
+        const send = () => {
+            let input = document.getElementById("send_text");
+            let text = input.value;
+            if(text.length>0 && ws!==null){
+                ws.send(text);
+                input.value = '';
             }
-        }, 1000);
+        }
+        document.getElementById('send_text').onkeydown = (e)=>{
+            if ( e.keyCode === 13) {
+                send();
+            }
+        }
+
 
     </script>
 </body>
